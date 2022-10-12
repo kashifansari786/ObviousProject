@@ -160,7 +160,6 @@
             android:layout_marginRight="10dp"
             android:weightSum="100"
             android:background="@drawable/button_drawable">
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
