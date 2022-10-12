@@ -48,7 +48,31 @@
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
-
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/changeLayout"
+                        android:layout_margin="5dp">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_grid"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:tint="@color/colorAccent"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:src="@drawable/green_grid" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_list"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:clickable="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/list_grey" />
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/search_bar"
                         android:layout_width="match_parent"

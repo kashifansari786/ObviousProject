@@ -1,18 +1,23 @@
 package com.strawnetwork.obviousproject.activities
 
 
-import androidx.appcompat.app.AppCompatActivity
+
+
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.tabs.TabLayout
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
@@ -33,9 +38,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),View.OnClickListener {
    // private var mSwipeRefresh: SwipeRefreshLayout? = null
     private var mMainActivityViewModel: MainActivityViewModel? = null
+    private lateinit var recyclerLayoutManager: GridLayoutManager
+    private lateinit var nasaImagesAdapter: NasaImagesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,8 +51,14 @@ class MainActivity : AppCompatActivity() {
         mMainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         //pass refrence of activity to viewmodel
         mMainActivityViewModel!!.NasaImagesData(this@MainActivity)
+        setUpClickListener()
         setUpNavigation()
         observeData()
+    }
+
+    private fun setUpClickListener() {
+        iv_grid.setOnClickListener(this)
+        iv_list.setOnClickListener(this)
     }
 
     private fun setUpNavigation() {
@@ -135,6 +148,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tabLayout.selectedTabPosition == 0) {
                     screen_title.setText(getString(R.string.home))
+                    changeLayout.visibility=View.VISIBLE
                     screen_title.setVisibility(View.VISIBLE)
                     search_bar.setVisibility(View.GONE)
                     swiperefresh?.setVisibility(View.VISIBLE)
@@ -156,6 +170,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 } else if (tabLayout.selectedTabPosition == 1) {
                     swiperefresh?.setVisibility(View.INVISIBLE)
+                    changeLayout.visibility=View.GONE
                     body_msg.setVisibility(View.INVISIBLE)
                     screen_title.setVisibility(View.GONE)
                     search_bar.setVisibility(View.VISIBLE)
@@ -172,6 +187,7 @@ class MainActivity : AppCompatActivity() {
                 } else if (tabLayout.selectedTabPosition == 2) {
                     swiperefresh?.setVisibility(View.INVISIBLE)
                     body_msg.setVisibility(View.INVISIBLE)
+                    changeLayout.visibility=View.GONE
                     screen_title.setText(getString(R.string.notification))
                     screen_title.setVisibility(View.VISIBLE)
                     search_bar.setVisibility(View.GONE)
@@ -194,6 +210,7 @@ class MainActivity : AppCompatActivity() {
                 } else if (tabLayout.selectedTabPosition == 3) {
                     swiperefresh?.setVisibility(View.INVISIBLE)
                     body_msg.setVisibility(View.VISIBLE)
+                    changeLayout.visibility=View.GONE
                     screen_title.setText(getString(R.string.message))
                     screen_title.setVisibility(View.VISIBLE)
                     search_bar.setVisibility(View.GONE)
@@ -230,14 +247,56 @@ class MainActivity : AppCompatActivity() {
         })
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
+    var toggleGrid:Boolean=true
+    var toggleLinear:Boolean=false
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.iv_grid->{
+                if(toggleGrid==false)
+                {
+                    iv_grid.setImageDrawable(resources?.getDrawable(R.drawable.green_grid))
+                    iv_grid.setColorFilter(resources.getColor(R.color.colorAccent));
+                    iv_list.setImageDrawable(resources?.getDrawable(R.drawable.list_grey))
+                    toggleLinear=false
+                    toggleGrid=true
+                    setToggle()
+                }
 
+            }
+            R.id.iv_list->{
+                if(toggleLinear==false)
+                {
+                    iv_grid.setImageDrawable(resources?.getDrawable(R.drawable.grid_grey))
+                    iv_list.setImageDrawable(resources?.getDrawable(R.drawable.list_green))
+                    iv_list.setColorFilter(resources.getColor(R.color.colorAccent));
+                    toggleLinear=true
+                    toggleGrid=false
+                    setToggle()
+                }
+
+            }
+            else -> {
+                // else condition
+            }
+        }
+    }
+
+    fun setToggle()
+    {
+        if(recyclerLayoutManager?.spanCount==1)
+            recyclerLayoutManager.spanCount=2
+        else
+            recyclerLayoutManager.spanCount=1
+        nasaImagesAdapter?.notifyItemRangeChanged(0, nasaImagesAdapter?.itemCount ?: 0)
+    }
     private fun observeData() {
         //observe data from viewmodel when live data have data(means when livedata post the value)
         mMainActivityViewModel!!.getNasaData?.observe(this) { nicePlaces ->
             recyclerView.apply {
                 setHasFixedSize(true)
                 //set grid layout manager to recyclerview with count 2
-                layoutManager= GridLayoutManager(this@MainActivity,2)
+                recyclerLayoutManager=GridLayoutManager(this@MainActivity,2)
+                layoutManager= recyclerLayoutManager
                 //add decoration to recyclerview horizxonral line between 2 cards
                 addItemDecoration(
                     DividerItemDecoration(recyclerView.context,
@@ -248,8 +307,11 @@ class MainActivity : AppCompatActivity() {
                         DividerItemDecoration.VERTICAL)
                 )
                 //initilize the adapter with arraylist of data and set to recyclerview
-                adapter= NasaImagesAdapter(this@MainActivity,nicePlaces)
+
             }
+            val sortedList=nicePlaces.sortedBy { it.date }
+            nasaImagesAdapter= NasaImagesAdapter(this@MainActivity,sortedList,recyclerLayoutManager)
+            recyclerView.adapter=nasaImagesAdapter
         }
     }
 }
