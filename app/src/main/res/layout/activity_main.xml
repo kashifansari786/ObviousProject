@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:id="@+id/screen_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Home"
+                        android:text="@string/home"
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
@@ -60,7 +60,7 @@
                         <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:hint="Search Twitter"
+                            android:hint="@string/search_nasa_images"
                             android:textColor="@color/draw_description"
                             android:textColorHint="@color/draw_description"
                             android:gravity="center_vertical|left"
@@ -69,7 +69,7 @@
                             android:inputType="text"
                             android:imeOptions="actionSearch"
                             android:paddingLeft="20dp"
-                            android:textSize="15dp"
+                            android:textSize="15sp"
                             android:layout_weight="0.9"/>
 
                         <com.mikepenz.iconics.view.IconicsTextView
