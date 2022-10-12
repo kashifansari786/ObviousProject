@@ -3,17 +3,14 @@ package com.strawnetwork.obviousproject.activities
 
 
 
-import android.graphics.PorterDuff
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -33,12 +30,13 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import com.strawnetwork.obviousproject.R
 import com.strawnetwork.obviousproject.adapters.NasaImagesAdapter
+import com.strawnetwork.obviousproject.utils.ClickInterface
 import com.strawnetwork.obviousproject.viewModels.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(),View.OnClickListener {
+class MainActivity : AppCompatActivity(),View.OnClickListener, ClickInterface {
    // private var mSwipeRefresh: SwipeRefreshLayout? = null
     private var mMainActivityViewModel: MainActivityViewModel? = null
     private lateinit var recyclerLayoutManager: GridLayoutManager
@@ -310,8 +308,14 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
 
             }
             val sortedList=nicePlaces.sortedBy { it.date }
-            nasaImagesAdapter= NasaImagesAdapter(this@MainActivity,sortedList,recyclerLayoutManager)
+            nasaImagesAdapter= NasaImagesAdapter(this@MainActivity,sortedList,this,recyclerLayoutManager)
             recyclerView.adapter=nasaImagesAdapter
         }
+    }
+
+    override fun onClickData(pos: Int) {
+        val i = Intent(this, DetailActivity::class.java)
+        i.putExtra("position", pos)
+        startActivity(i)
     }
 }

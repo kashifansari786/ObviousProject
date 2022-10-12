@@ -15,4 +15,5 @@
     <color name="colorPrimaryDark">#e8ebed</color>
     <color name="colorAccent">#1da1f2</color>
     <color name="draw_head">#000000</color>
+    <color name="md_blue_grey_50">#ECEFF1</color>
 </resources>

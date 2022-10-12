@@ -13,4 +13,7 @@
     <string name="item_qr">QR Code</string>
     <string name="notification">Notifications</string>
     <string name="message">Messages</string>
+    <string name="previous">Previous Image</string>
+    <string name="next">Next Image</string>
+
 </resources>
