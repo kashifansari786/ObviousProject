@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">ObviousProject</string>
     <string name="tab_msg">Messages</string>
+    <string name="home">Home</string>
+    <string name="search_nasa_images">Search Nasa Images</string>
 </resources>
