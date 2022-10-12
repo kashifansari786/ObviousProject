@@ -11,4 +11,8 @@
     <color name="colorBg">#e6ecf0</color>
     <color name="searchBarBorder">#ced5db</color>
     <color name="searchBarBg">#e4ecef</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#e8ebed</color>
+    <color name="colorAccent">#1da1f2</color>
+    <color name="draw_head">#000000</color>
 </resources>

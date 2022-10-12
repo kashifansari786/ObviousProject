@@ -3,4 +3,14 @@
     <string name="tab_msg">Messages</string>
     <string name="home">Home</string>
     <string name="search_nasa_images">Search Nasa Images</string>
+    <string name="item_profile">Profile</string>
+    <string name="item_lists">Lists</string>
+    <string name="item_moments">Moments</string>
+    <string name="item_highlights">Highlights</string>
+    <string name="item_sap">Status and Privacy</string>
+    <string name="item_help">Help Center</string>
+    <string name="item_night">Night Mode</string>
+    <string name="item_qr">QR Code</string>
+    <string name="notification">Notifications</string>
+    <string name="message">Messages</string>
 </resources>

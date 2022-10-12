@@ -45,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/home"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
 
@@ -58,7 +58,7 @@
                         android:visibility="gone">
 
                         <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:hint="@string/search_nasa_images"
                             android:textColor="@color/draw_description"
@@ -70,15 +70,15 @@
                             android:imeOptions="actionSearch"
                             android:paddingLeft="20dp"
                             android:textSize="15sp"
-                            android:layout_weight="0.9"/>
-
-                        <com.mikepenz.iconics.view.IconicsTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="{typ-user-add-outline}"
-                            android:gravity="center"
-                            android:textSize="30sp"
                             android:layout_weight="0.1"/>
+
+<!--                        <com.mikepenz.iconics.view.IconicsTextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:text="{typ-user-add-outline}"-->
+<!--                            android:gravity="center"-->
+<!--                            android:textSize="30sp"-->
+<!--                            android:layout_weight="0.9"/>-->
                     </LinearLayout>
 
                 </RelativeLayout>
