@@ -2,6 +2,7 @@ package com.strawnetwork.obviousproject.activities
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.strawnetwork.obviousproject.R
 import com.strawnetwork.obviousproject.model.NasaModelClass
+import com.strawnetwork.obviousproject.utils.UtilClass
 import com.strawnetwork.obviousproject.viewModels.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.detail_layout.*
@@ -77,8 +79,8 @@ class DetailActivity:AppCompatActivity(),View.OnClickListener {
                     }
                 })
                 .into(mainImage)
-            copyright.text=data.copyrights
-            date.text=data.date
+            copyright.text="© ${data.copyright}"
+            date.text= data.date?.let { UtilClass.formatData(it) }
             detailTitle.text=data.title
             topTitle.text=data.title
             description.text=data.explanation

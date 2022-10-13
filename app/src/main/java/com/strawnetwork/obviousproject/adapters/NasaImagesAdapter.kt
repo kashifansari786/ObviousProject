@@ -22,10 +22,10 @@ import com.bumptech.glide.request.target.Target
 import com.strawnetwork.obviousproject.R
 import com.strawnetwork.obviousproject.model.NasaModelClass
 import com.strawnetwork.obviousproject.utils.ClickInterface
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
+import com.strawnetwork.obviousproject.utils.UtilClass
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class NasaImagesAdapter(private val context: Context, private val arrayList: List<NasaModelClass>,val clickInterface: ClickInterface,val layoutManager: GridLayoutManager? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -68,7 +68,8 @@ class NasaImagesAdapter(private val context: Context, private val arrayList: Lis
 
             GRID_ITEM,LIST_ITEM -> {
                 (holder as ImageViewHolder).nasaTitle.text = data.title
-                holder.nasadate.text= data.date
+                //let is used if data is not null then it will execute for null safty
+                holder.nasadate.text= data.date?.let { UtilClass.formatData(it) }
                 Glide.with(context)
                     .load(data.url)
                     .apply( RequestOptions().override(100, 100))
