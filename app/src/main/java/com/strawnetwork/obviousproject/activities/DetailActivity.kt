@@ -1,22 +1,15 @@
 package com.strawnetwork.obviousproject.activities
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.strawnetwork.obviousproject.R
+import com.strawnetwork.obviousproject.adapters.ViewPagerAdapter
 import com.strawnetwork.obviousproject.model.NasaModelClass
-import com.strawnetwork.obviousproject.utils.UtilClass
 import com.strawnetwork.obviousproject.viewModels.MainActivityViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.detail_layout.*
 
 
@@ -56,36 +49,49 @@ class DetailActivity:AppCompatActivity(),View.OnClickListener {
         val arraySize=arrayList.size
         if(position!=-1 && position<arraySize)
         {
-            if(position==0)
-                priviousImage.visibility=View.GONE
-            else
-                priviousImage.visibility=View.VISIBLE
-            if(position==arraySize-1)
-                nextImage.visibility=View.GONE
-            else
-                nextImage.visibility=View.VISIBLE
-            val data=arrayList.get(position)
-            Glide.with(this)
-                .load(data.hdurl)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        progressDetail.visibility = View.GONE
-                        return false
-                    }
 
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        progressDetail.visibility = View.GONE
-                        return false
-                    }
-                })
-                .into(mainImage)
-            copyright.text="© ${data.copyright}"
-            date.text= data.date?.let { UtilClass.formatData(it) }
-            detailTitle.text=data.title
-            topTitle.text=data.title
-            description.text=data.explanation
+            val mViewPagerAdapter = ViewPagerAdapter(this, arrayList)
+
+            // Adding the Adapter to the ViewPager
+
+            // Adding the Adapter to the ViewPager
+            viewPager.setAdapter(mViewPagerAdapter)
+            viewPager.setCurrentItem(position,true)
+            viewPager.addOnPageChangeListener(object : OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageScrolled(
+                    pos: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    Log.e("inside_position","scroll:- "+position+", "+pos)
+                    position=pos
+                    setTitledata(arraySize)
+                }
+
+                override fun onPageSelected(pos: Int) {
+                    // Check if this is the page you want.
+                    Log.e("inside_position","pos:- "+position+", "+pos)
+
+                }
+            })
+
         }
 
+    }
+
+     fun setTitledata(arraySize:Int) {
+        if(position==0)
+            priviousImage.visibility=View.GONE
+        else
+            priviousImage.visibility=View.VISIBLE
+        if(position==arraySize-1)
+            nextImage.visibility=View.GONE
+        else
+            nextImage.visibility=View.VISIBLE
+        val data=arrayList.get(position)
+
+        topTitle.text=data.title
     }
 
     private fun observeData() {
